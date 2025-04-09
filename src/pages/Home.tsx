@@ -24,10 +24,7 @@ export const Home = () => {
               </Link>
             </div>
             <div className="">
-              <img
-                src="./public/logo.png"
-                alt="Barbearia Studio Barber 33"
-              />
+              
             </div>
           </div>
         </div>
