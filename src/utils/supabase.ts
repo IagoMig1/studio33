@@ -14,16 +14,15 @@ export interface Servico {
 export interface Agendamento {
   id: string;
   nome: string;
-  cpf: string;
   telefone: string;
   data_hora: string;
   servico_id: string;
   pagamento: 'pix' | 'cartão' | 'presencial';
   status: 'pendente' | 'confirmado' | 'cancelado';
   criado_em: string;
-  servico?: Servico;
-}
-export interface Usuario {
+  barbeiro_id: string; // ID do barbeiro
+  barbeiros?: { nome: string }; // Dados do barbeiro relacionado
+} interface Usuario {
   id: string;
   role: 'admin' | 'cliente';
 }
@@ -69,23 +68,38 @@ export const deleteServico = async (id: string) => {
   if (error) throw error;
   return true;
 };
-// Funções para agendamentos
-export const getAgendamentos = async () => {
-  const {
-    data,
-    error
-  } = await supabase.from('agendamentos').select(`
-      *,
-      servico:servico_id (
-        id,
-        nome,
-        preco,
-        duracao
-      )
-    `).order('data_hora');
-  if (error) throw error;
+// Verifique se você já tem a função assíncrona correta, então remova qualquer duplicata
+export const getAgendamentos = async (): Promise<Agendamento[]> => {
+  const { data, error } = await supabase
+    .from('agendamentos')
+    .select(`
+      id,
+      nome,
+      telefone,
+      data_hora,
+      servico_id,
+      pagamento,
+      status,
+      criado_em,
+      barbeiro_id,
+      barbeiros:barbeiro_id (nome) -- Relacionamento correto
+    `);
+
+  if (error) {
+    console.error('Erro ao buscar agendamentos:', error);
+    return [];
+  }
+
+  console.log('Agendamentos com barbeiro:', data);
   return data as Agendamento[];
 };
+
+
+
+
+
+
+
 export const getAgendamentosDoDia = async (data: string) => {
   const dataInicio = new Date(`${data}T00:00:00-03:00`).toISOString();
   const dataFim = new Date(`${data}T23:59:59-03:00`).toISOString();
@@ -109,21 +123,35 @@ export const getAgendamentosDoDia = async (data: string) => {
 };
 
 
-export const createAgendamento = async (agendamento: Omit<Agendamento, 'id' | 'criado_em' | 'servico'>) => {
-  // Corrigir o horário do agendamento para UTC-3 (Brasília)
-  const dataHoraBrasilia = new Date(`${agendamento.data_hora}-03:00`).toISOString();
+export const createAgendamento = async (data: {
+  nome: string;
+  cpf: string;
+  telefone: string;
+  data_hora: string;
+  servico_id: string;
+  barbeiro_id: string;
+  pagamento: string;
+  status: string;
+}) => {
+  const { data: existing, error: fetchError } = await supabase
+    .from('agendamentos')
+    .select('*')
+    .eq('data_hora', data.data_hora)
+    .eq('barbeiro_id', data.barbeiro_id);
 
-  const {
-    data,
-    error
-  } = await supabase.from('agendamentos').insert({
-    ...agendamento,
-    data_hora: dataHoraBrasilia,
-  }).select();
+  if (fetchError) throw fetchError;
 
-  if (error) throw error;
-  return data[0] as Agendamento;
+  if (existing.length > 0) {
+    throw new Error('Horário já está ocupado para esse barbeiro.');
+  }
+
+  const { error: insertError } = await supabase
+    .from('agendamentos')
+    .insert(data);
+
+  if (insertError) throw insertError;
 };
+
 
 export const updateStatusAgendamento = async (id: string, status: 'pendente' | 'confirmado' | 'cancelado') => {
   const {
@@ -171,3 +199,27 @@ export const getUserRole = async () => {
   if (error) return null;
   return data.role;
 };
+
+// utils/supabase.ts
+
+export async function getAgendamentosPorDia(date: string, barbeiroId: string) {
+  const startOfDay = `${date}T00:00:00`;
+  const endOfDay = `${date}T23:59:59`;
+
+  const { data, error } = await supabase
+    .from('agendamentos')
+    .select('data_hora')
+    .eq('barbeiro_id', barbeiroId)
+    .gte('data_hora', startOfDay)
+    .lte('data_hora', endOfDay);
+
+  if (error) {
+    console.error('Erro ao buscar agendamentos por dia:', error.message);
+    return [];
+  }
+
+  return data || [];
+}
+
+
+
