@@ -105,7 +105,7 @@ export const Payment = () => {
       Data: ${formatDate(state.dataHora)}
       Hora: ${formatTime(state.dataHora)}
       Telefone: ${state.telefone}
-      Barbeiro: ${state.barbeiroNome}
+      Profissional: ${state.barbeiroNome}
     `;
     
     const mensagemUrl = encodeURIComponent(mensagem);  // Codifica a mensagem para a URL do WhatsApp

@@ -175,7 +175,7 @@ export const Booking = () => {
           </div>
           <h1 className="text-3xl font-bold text-gray-900">Agendar Horário</h1>
           <p className="mt-2 text-lg text-gray-600">
-            Escolha o serviço, barbeiro, data e horário
+            Escolha o serviço, profissional, data e horário
           </p>
         </div>
 
@@ -195,7 +195,7 @@ export const Booking = () => {
         {/* 2. Barbeiro */}
         {selectedServico && (
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">2. Escolha o barbeiro</h2>
+            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">2. Escolha o profissional</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               {barbeiros.map(barbeiro => (
                 <BarbeiroCard
