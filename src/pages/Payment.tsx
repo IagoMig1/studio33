@@ -97,6 +97,21 @@ export const Payment = () => {
     }
   };
 
+  const gerarLinkWhatsApp = () => {
+    const mensagem = `
+      Olá! Por favor, confirme o meu agendamento:
+      Cliente: ${state.nome}
+      Serviço: ${serviceName}
+      Data: ${formatDate(state.dataHora)}
+      Hora: ${formatTime(state.dataHora)}
+      Telefone: ${state.telefone}
+      Barbeiro: ${state.barbeiroNome}
+    `;
+    
+    const mensagemUrl = encodeURIComponent(mensagem);  // Codifica a mensagem para a URL do WhatsApp
+    return `https://wa.me/+5512997310938?text=${mensagemUrl}`;  // Substitua o número pelo WhatsApp da barbearia
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#CBD5E0] flex justify-center items-center">
@@ -148,9 +163,16 @@ export const Payment = () => {
               <strong>Barbeiro:</strong> {state.barbeiroNome}
             </p>
           </div>
+          <a
+            href={gerarLinkWhatsApp()}  // Link para WhatsApp gerado com os dados do agendamento
+            target="_blank"
+            className="bg-[#319795] text-white px-6 py-3 rounded-md font-medium hover:bg-[#4FD1C5]"
+          >
+            Confirmar via WhatsApp
+          </a>
           <button
             onClick={() => navigate('/')}
-            className="bg-[#319795] text-[#1A202C] font-bold py-2 px-6 rounded hover:bg-[#4FD1C5]"
+            className="bg-[#319795] text-[#1A202C] font-bold py-2 px-6 rounded hover:bg-[#4FD1C5] mt-4"
           >
             Voltar ao Início
           </button>

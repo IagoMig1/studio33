@@ -18,8 +18,15 @@ export const AdminDashboard = () => {
   const [error, setError] = useState('');
   const [agendamentos, setAgendamentos] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [selectedBarbeiro, setSelectedBarbeiro] = useState<string>(''); // Estado para o barbeiro selecionado
   const [faturamentoDia, setFaturamentoDia] = useState(0);
   const [totalAgendamentos, setTotalAgendamentos] = useState(0);
+
+  const barbeiros = [
+    { id: '00000000-0000-0000-0000-000000000001', nome: 'Carlos Eduardo' },
+    { id: '00000000-0000-0000-0000-000000000002', nome: 'Caio Augusto' },
+    { id: '00000000-0000-0000-0000-000000000003', nome: 'Rhian Vinicius' },
+  ];
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -40,11 +47,19 @@ export const AdminDashboard = () => {
       setLoading(true);
       try {
         const data = await getAgendamentosDoDia(selectedDate);
-        setAgendamentos(data);
-        const faturamento = data.filter(a => a.status === 'confirmado')
+        
+        // Filtrar os agendamentos pelo barbeiro selecionado
+        const agendamentosFiltrados = selectedBarbeiro
+          ? data.filter(a => a.barbeiro_id === selectedBarbeiro)
+          : data;
+        
+        setAgendamentos(agendamentosFiltrados);
+
+        // Cálculo do faturamento
+        const faturamento = agendamentosFiltrados.filter(a => a.status === 'confirmado')
           .reduce((total, a) => total + (a.servico?.preco || 0), 0);
         setFaturamentoDia(faturamento);
-        setTotalAgendamentos(data.length);
+        setTotalAgendamentos(agendamentosFiltrados.length);
       } catch (error) {
         console.error('Erro ao buscar agendamentos:', error);
         setError('Não foi possível carregar os agendamentos. Tente novamente mais tarde.');
@@ -53,7 +68,7 @@ export const AdminDashboard = () => {
       }
     };
     fetchAgendamentos();
-  }, [selectedDate]);
+  }, [selectedDate, selectedBarbeiro]); // Dependências atualizadas para incluir o barbeiro
 
   const handleStatusChange = async (id: string, status: 'confirmado' | 'cancelado') => {
     try {
@@ -68,6 +83,10 @@ export const AdminDashboard = () => {
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedDate(e.target.value);
+  };
+
+  const handleBarbeiroChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBarbeiro(e.target.value);
   };
 
   const pendentes = agendamentos.filter(a => a.status === 'pendente');
@@ -129,6 +148,18 @@ export const AdminDashboard = () => {
                 onChange={handleDateChange}
                 className="border text-sm px-3 py-1 rounded-md shadow-sm focus:ring-2 focus:ring-brand-light"
               />
+              <select
+                value={selectedBarbeiro}
+                onChange={handleBarbeiroChange}
+                className="ml-4 border text-sm px-3 py-1 rounded-md shadow-sm focus:ring-2 focus:ring-brand-light"
+              >
+                <option value="">Selecione o barbeiro</option>
+                {barbeiros.map(barbeiro => (
+                  <option key={barbeiro.id} value={barbeiro.id}>
+                    {barbeiro.nome}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 

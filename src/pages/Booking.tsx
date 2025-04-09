@@ -32,15 +32,21 @@ export const Booking = () => {
   const barbeiros: Barbeiro[] = [
     {
       id: '00000000-0000-0000-0000-000000000001',
-      nome: 'João Silva',
-      foto: 'https://images.unsplash.com/photo-1565787154274-c8d076ad34e7?auto=format&fit=crop&w=800&q=80',
-      especialidade: 'Especialista em Cortes Modernos',
+      nome: 'Carlos Eduardo',
+      foto: 'https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=800&q=80',
+      especialidade: '-',
     },
     {
       id: '00000000-0000-0000-0000-000000000002',
-      nome: 'Pedro Santos',
+      nome: 'Caio Augusto',
       foto: 'https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=800&q=80',
-      especialidade: 'Especialista em Barba',
+      especialidade: '-',
+    },
+    {
+      id: '00000000-0000-0000-0000-000000000003',
+      nome: 'Rhian Vinicius',
+      foto: 'https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=800&q=80', // Adapte a URL da foto
+      especialidade: '-',
     },
   ];
 
