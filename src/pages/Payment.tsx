@@ -71,7 +71,6 @@ export const Payment = () => {
       setSubmitting(false);
     }
   };
-  
 
   const formatDate = (dateString: string) => {
     try {
@@ -100,10 +99,10 @@ export const Payment = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center">
+      <div className="min-h-screen bg-[#CBD5E0] flex justify-center items-center">
         <div className="flex flex-col items-center">
-          <LoaderIcon className="h-10 w-10 text-amber-500 animate-spin" />
-          <p className="mt-4 text-gray-600">Carregando informações de pagamento...</p>
+          <LoaderIcon className="h-10 w-10 text-[#319795] animate-spin" />
+          <p className="mt-4 text-[#1A202C]">Carregando informações de pagamento...</p>
         </div>
       </div>
     );
@@ -111,13 +110,13 @@ export const Payment = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
+      <div className="min-h-screen bg-[#CBD5E0] flex justify-center items-center">
+        <div className="bg-[#FFFFFF] p-6 rounded-lg shadow-md max-w-md w-full">
           <h2 className="text-xl font-semibold text-red-600 mb-2">Erro</h2>
-          <p className="text-gray-600 mb-4">{error}</p>
+          <p className="text-[#1A202C] mb-4">{error}</p>
           <button
             onClick={() => navigate('/agendar')}
-            className="bg-amber-500 text-black font-bold py-2 px-4 rounded hover:bg-amber-400"
+            className="bg-[#319795] text-[#1A202C] font-bold py-2 px-4 rounded hover:bg-[#4FD1C5]"
           >
             Voltar para Agendamento
           </button>
@@ -128,16 +127,16 @@ export const Payment = () => {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-        <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full text-center">
+      <div className="min-h-screen bg-[#CBD5E0] flex justify-center items-center">
+        <div className="bg-[#FFFFFF] p-8 rounded-lg shadow-md max-w-md w-full text-center">
           <CheckCircleIcon className="h-16 w-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Agendamento Confirmado!</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-[#1A202C] mb-2">Agendamento Confirmado!</h2>
+          <p className="text-[#1A202C] mb-6">
             Seu horário foi agendado com sucesso. Você será redirecionado para a
             página inicial em instantes.
           </p>
-          <div className="bg-gray-50 p-4 rounded-md mb-4">
-            <p className="text-sm text-gray-600">
+          <div className="bg-[#CBD5E0] p-4 rounded-md mb-4">
+            <p className="text-sm text-[#1A202C]">
               <strong>Serviço:</strong> {serviceName}
               <br />
               <strong>Data:</strong> {formatDate(state.dataHora)}
@@ -151,7 +150,7 @@ export const Payment = () => {
           </div>
           <button
             onClick={() => navigate('/')}
-            className="bg-amber-500 text-black font-bold py-2 px-6 rounded hover:bg-amber-400"
+            className="bg-[#319795] text-[#1A202C] font-bold py-2 px-6 rounded hover:bg-[#4FD1C5]"
           >
             Voltar ao Início
           </button>
@@ -161,20 +160,20 @@ export const Payment = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12">
+    <div className="min-h-screen bg-[#CBD5E0] py-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-3 bg-amber-500 rounded-full mb-4">
-            <CreditCardIcon className="h-8 w-8 text-black" />
+          <div className="inline-flex items-center justify-center p-3 bg-[#319795] rounded-full mb-4">
+            <CreditCardIcon className="h-8 w-8 text-[#FFFFFF]" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Finalizar Agendamento</h1>
-          <p className="mt-2 text-lg text-gray-600">
+          <h1 className="text-3xl font-bold text-[#1A202C]">Finalizar Agendamento</h1>
+          <p className="mt-2 text-lg text-[#1A202C]">
             Confira os detalhes do seu agendamento e confirme
           </p>
         </div>
-        <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+        <div className="bg-[#FFFFFF] rounded-lg shadow-md overflow-hidden mb-8">
           <div className="p-6">
-            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">
+            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-[#CBD5E0]">
               Resumo do Agendamento
             </h2>
             <div className="space-y-4">
@@ -187,9 +186,9 @@ export const Payment = () => {
               <Info label="Barbeiro" value={state.barbeiroNome} />
             </div>
           </div>
-          <div className="bg-gray-50 p-6">
-            <h3 className="text-lg font-medium mb-4">Forma de Pagamento</h3>
-            <div className="border border-gray-200 rounded-md p-4 bg-white">
+          <div className="bg-[#CBD5E0] p-6">
+            <h3 className="text-lg font-medium mb-4 text-[#1A202C]">Forma de Pagamento</h3>
+            <div className="border border-[#CBD5E0] rounded-md p-4 bg-[#FFFFFF]">
               <div className="flex items-center">
                 <input
                   id="pagamento-local"
@@ -197,13 +196,13 @@ export const Payment = () => {
                   type="radio"
                   checked
                   readOnly
-                  className="h-4 w-4 text-amber-500 focus:ring-amber-500 border-gray-300"
+                  className="h-4 w-4 text-[#319795] focus:ring-[#319795] border-[#CBD5E0]"
                 />
-                <label htmlFor="pagamento-local" className="ml-3 block text-sm font-medium text-gray-700">
+                <label htmlFor="pagamento-local" className="ml-3 block text-sm font-medium text-[#1A202C]">
                   Pagamento na Barbearia
                 </label>
               </div>
-              <p className="mt-2 text-sm text-gray-500 pl-7">
+              <p className="mt-2 text-sm text-[#1A202C] pl-7">
                 Pague diretamente na barbearia no dia do seu atendimento.
               </p>
             </div>
@@ -213,7 +212,7 @@ export const Payment = () => {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="bg-gray-200 text-gray-800 px-6 py-3 rounded-md font-medium hover:bg-gray-300"
+            className="bg-[#CBD5E0] text-[#1A202C] px-6 py-3 rounded-md font-medium hover:bg-[#A0AEC0]"
           >
             Voltar
           </button>
@@ -221,7 +220,7 @@ export const Payment = () => {
             type="button"
             onClick={handleSubmit}
             disabled={submitting}
-            className="bg-black text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="bg-[#1A202C] text-white px-6 py-3 rounded-md font-medium hover:bg-[#285E61] disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             {submitting ? 'Processando...' : 'Confirmar Agendamento'}
           </button>
@@ -233,7 +232,7 @@ export const Payment = () => {
 
 const Info = ({ label, value }: { label: string; value: string }) => (
   <div className="flex justify-between">
-    <span className="text-gray-600">{label}:</span>
+    <span className="text-[#1A202C]">{label}:</span>
     <span className="font-medium">{value}</span>
   </div>
 );

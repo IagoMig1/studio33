@@ -62,8 +62,14 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({
     }
   };
 
+  const statusBorder = {
+    confirmado: 'border-green-500',
+    cancelado: 'border-red-500',
+    pendente: 'border-amber-500',
+  }[agendamento.status];
+
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-amber-500">
+    <div className={`bg-white rounded-lg shadow-md p-4 border-l-4 ${statusBorder}`}>
       <div className="flex justify-between items-start">
         <div>
           <h3 className="font-semibold text-gray-800">
@@ -87,6 +93,12 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({
             <div className="flex items-center mb-1">
               <span>Barbeiro: {agendamento.barbeiros?.nome || 'Não informado'}</span>
             </div>
+            <div className="flex items-center mb-1">
+              <span>Preço: {agendamento.servico?.preco?.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+              }) || 'N/A'}</span>
+            </div>
           </div>
         </div>
         <div>{getStatusBadge()}</div>
@@ -95,12 +107,14 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({
       {agendamento.status === 'pendente' && (
         <div className="mt-3 flex space-x-2">
           <button
+            title="Confirmar agendamento"
             onClick={() => onStatusChange(agendamento.id, 'confirmado')}
             className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded text-sm"
           >
             Confirmar
           </button>
           <button
+            title="Cancelar agendamento"
             onClick={() => onStatusChange(agendamento.id, 'cancelado')}
             className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm"
           >

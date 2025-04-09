@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCurrentUser, getAgendamentosDoDia, updateStatusAgendamento } from '../utils/supabase';
+import {
+  getCurrentUser,
+  getAgendamentosDoDia,
+  updateStatusAgendamento
+} from '../utils/supabase';
 import { AppointmentCard } from '../components/AppointmentCard';
-import { CalendarIcon, LoaderIcon, AlertTriangleIcon } from 'lucide-react';
+import {
+  CalendarIcon,
+  LoaderIcon,
+  AlertTriangleIcon
+} from 'lucide-react';
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -17,9 +25,7 @@ export const AdminDashboard = () => {
     const checkAuth = async () => {
       try {
         const user = await getCurrentUser();
-        if (!user) {
-          navigate('/login');
-        }
+        if (!user) navigate('/login');
       } catch (error) {
         console.error('Erro ao verificar autenticação:', error);
         navigate('/login');
@@ -35,7 +41,8 @@ export const AdminDashboard = () => {
       try {
         const data = await getAgendamentosDoDia(selectedDate);
         setAgendamentos(data);
-        const faturamento = data.filter(a => a.status === 'confirmado').reduce((total, agendamento) => total + (agendamento.servico?.preco || 0), 0);
+        const faturamento = data.filter(a => a.status === 'confirmado')
+          .reduce((total, a) => total + (a.servico?.preco || 0), 0);
         setFaturamentoDia(faturamento);
         setTotalAgendamentos(data.length);
       } catch (error) {
@@ -51,13 +58,11 @@ export const AdminDashboard = () => {
   const handleStatusChange = async (id: string, status: 'confirmado' | 'cancelado') => {
     try {
       await updateStatusAgendamento(id, status);
-      setAgendamentos(agendamentos.map(agendamento => agendamento.id === id ? {
-        ...agendamento,
-        status
-      } : agendamento));
+      setAgendamentos(agendamentos.map(agendamento =>
+        agendamento.id === id ? { ...agendamento, status } : agendamento));
     } catch (error) {
       console.error('Erro ao atualizar status:', error);
-      alert('Não foi possível atualizar o status do agendamento. Tente novamente.');
+      alert('Não foi possível atualizar o status do agendamento.');
     }
   };
 
@@ -65,116 +70,116 @@ export const AdminDashboard = () => {
     setSelectedDate(e.target.value);
   };
 
-  // Função para formatar a data ajustando o fuso horário de São Paulo
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const options = { timeZone: 'America/Sao_Paulo' }; // Ajuste para o fuso horário de São Paulo
-    return date.toLocaleString('pt-BR', options);
-  };
-
-  if (loading && agendamentos.length === 0) {
-    return <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-        <div className="flex flex-col items-center">
-          <LoaderIcon className="h-10 w-10 text-amber-500 animate-spin" />
-          <p className="mt-4 text-gray-600">
-            Carregando painel administrativo...
-          </p>
-        </div>
-      </div>;
-  }
-
   const pendentes = agendamentos.filter(a => a.status === 'pendente');
   const confirmados = agendamentos.filter(a => a.status === 'confirmado');
   const cancelados = agendamentos.filter(a => a.status === 'cancelado');
 
-  return <div className="min-h-screen bg-gray-100 py-8">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="md:flex md:items-center md:justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            Painel Administrativo
-          </h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Gerencie agendamentos e serviços da Studio Barber 33
-          </p>
+  if (loading && agendamentos.length === 0) {
+    return (
+      <div className="min-h-screen bg-brand-gray flex justify-center items-center">
+        <div className="flex flex-col items-center">
+          <LoaderIcon className="h-10 w-10 text-brand-aqua animate-spin" />
+          <p className="mt-4 text-brand-dark">Carregando painel administrativo...</p>
         </div>
-        <div className="mt-4 md:mt-0 flex space-x-3">
-          <button onClick={() => navigate('/admin/servicos')} className="bg-amber-500 hover:bg-amber-600 text-black font-medium py-2 px-4 rounded">
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-brand-gray py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-brand-black">Painel Administrativo</h1>
+            <p className="text-sm text-brand-dark mt-1">Gerencie agendamentos da Studio Barber 33</p>
+          </div>
+          <button
+            onClick={() => navigate('/admin/servicos')}
+            className="mt-4 sm:mt-0 bg-brand-light hover:bg-brand-dark text-white font-semibold py-2 px-5 rounded-lg shadow transition"
+          >
             Gerenciar Serviços
           </button>
         </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Total de Agendamentos
-          </h3>
-          <p className="text-3xl font-bold text-amber-500">
-            {totalAgendamentos}
-          </p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Faturamento do Dia
-          </h3>
-          <p className="text-3xl font-bold text-green-500">
-            {faturamentoDia.toLocaleString('pt-BR', {
+
+        {/* Cards Resumo */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <ResumoCard titulo="Total de Agendamentos" valor={totalAgendamentos} />
+          <ResumoCard
+            titulo="Faturamento do Dia"
+            valor={faturamentoDia.toLocaleString('pt-BR', {
               style: 'currency',
               currency: 'BRL'
             })}
-          </p>
+            cor="text-green-600"
+          />
+          <ResumoCard titulo="Confirmados" valor={confirmados.length} />
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Confirmados
-          </h3>
-          <p className="text-3xl font-bold text-blue-500">
-            {confirmados.length}
-          </p>
-        </div>
-      </div>
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
-            Agendamentos do Dia
-          </h2>
-          <div className="flex items-center">
-            <CalendarIcon className="h-5 w-5 text-gray-400 mr-2" />
-            <input type="date" value={selectedDate} onChange={handleDateChange} className="border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500" />
-          </div>
-        </div>
-        {error ? <div className="bg-red-50 border-l-4 border-red-500 p-4">
-            <div className="flex">
-              <AlertTriangleIcon className="h-5 w-5 text-red-500 mr-2" />
-              <p className="text-sm text-red-700">{error}</p>
+
+        {/* Agendamentos */}
+        <div className="bg-white rounded-xl shadow p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+            <h2 className="text-xl font-semibold text-brand-black">Agendamentos do Dia</h2>
+            <div className="flex items-center mt-2 sm:mt-0">
+              <CalendarIcon className="h-5 w-5 text-brand-dark mr-2" />
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={handleDateChange}
+                className="border text-sm px-3 py-1 rounded-md shadow-sm focus:ring-2 focus:ring-brand-light"
+              />
             </div>
-          </div> : <div>
-            <h3 className="font-medium text-gray-700 mb-2">
-              Pendentes ({pendentes.length})
-            </h3>
-            {pendentes.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                {pendentes.map(agendamento => <AppointmentCard key={agendamento.id} agendamento={agendamento} onStatusChange={handleStatusChange} />)}
-              </div> : <p className="text-gray-500 mb-6">
-                Nenhum agendamento pendente para esta data.
-              </p>}
-            <h3 className="font-medium text-gray-700 mb-2">
-              Confirmados ({confirmados.length})
-            </h3>
-            {confirmados.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                {confirmados.map(agendamento => <AppointmentCard key={agendamento.id} agendamento={agendamento} onStatusChange={handleStatusChange} />)}
-              </div> : <p className="text-gray-500 mb-6">
-                Nenhum agendamento confirmado para esta data.
-              </p>}
-            <h3 className="font-medium text-gray-700 mb-2">
-              Cancelados ({cancelados.length})
-            </h3>
-            {cancelados.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {cancelados.map(agendamento => <AppointmentCard key={agendamento.id} agendamento={agendamento} onStatusChange={handleStatusChange} />)}
-              </div> : <p className="text-gray-500">
-                Nenhum agendamento cancelado para esta data.
-              </p>}
-          </div>}
+          </div>
+
+          {error ? (
+            <div className="bg-red-50 border-l-4 border-red-500 p-4">
+              <div className="flex">
+                <AlertTriangleIcon className="h-5 w-5 text-red-500 mr-2" />
+                <p className="text-sm text-red-700">{error}</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <AgendamentosSecao titulo="Pendentes" agendamentos={pendentes} onStatusChange={handleStatusChange} />
+              <AgendamentosSecao titulo="Confirmados" agendamentos={confirmados} onStatusChange={handleStatusChange} />
+              <AgendamentosSecao titulo="Cancelados" agendamentos={cancelados} onStatusChange={handleStatusChange} />
+            </>
+          )}
+        </div>
       </div>
     </div>
-  </div>;
+  );
 };
+
+const ResumoCard = ({ titulo, valor, cor = 'text-brand-light' }: { titulo: string; valor: number | string; cor?: string }) => (
+  <div className="bg-white rounded-xl shadow-md p-6 flex flex-col justify-between">
+    <h3 className="text-base font-medium text-brand-dark mb-2">{titulo}</h3>
+    <p className={`text-3xl font-bold ${cor}`}>{valor}</p>
+  </div>
+);
+
+const AgendamentosSecao = ({
+  titulo,
+  agendamentos,
+  onStatusChange
+}: {
+  titulo: string;
+  agendamentos: any[];
+  onStatusChange: (id: string, status: 'confirmado' | 'cancelado') => void;
+}) => (
+  <div className="mb-8">
+    <h3 className="font-semibold text-brand-black text-lg mb-3">
+      {titulo} ({agendamentos.length})
+    </h3>
+    {agendamentos.length > 0 ? (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {agendamentos.map((a) => (
+          <AppointmentCard key={a.id} agendamento={a} onStatusChange={onStatusChange} />
+        ))}
+      </div>
+    ) : (
+      <p className="text-brand-dark">Nenhum agendamento {titulo.toLowerCase()} para esta data.</p>
+    )}
+  </div>
+);

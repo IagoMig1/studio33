@@ -139,7 +139,7 @@ export const Booking = () => {
     return (
       <div className="min-h-screen bg-gray-100 flex justify-center items-center">
         <div className="flex flex-col items-center">
-          <LoaderIcon className="h-10 w-10 text-amber-500 animate-spin" />
+          <LoaderIcon className="h-10 w-10 text-brand-aqua animate-spin" />
           <p className="mt-4 text-gray-600">Carregando...</p>
         </div>
       </div>
@@ -152,7 +152,7 @@ export const Booking = () => {
         <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
           <h2 className="text-xl font-semibold text-red-600 mb-2">Erro</h2>
           <p className="text-gray-600 mb-4">{error}</p>
-          <button onClick={() => window.location.reload()} className="bg-amber-500 text-black font-bold py-2 px-4 rounded hover:bg-amber-400">
+          <button onClick={() => window.location.reload()} className="bg-brand-aqua text-black font-bold py-2 px-4 rounded hover:opacity-90">
             Tentar Novamente
           </button>
         </div>
@@ -164,7 +164,7 @@ export const Booking = () => {
     <div className="min-h-screen bg-gray-100 py-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-3 bg-amber-500 rounded-full mb-4">
+          <div className="inline-flex items-center justify-center p-3 bg-brand-aqua rounded-full mb-4">
             <ScissorsIcon className="h-8 w-8 text-black" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900">Agendar Horário</h1>
@@ -176,7 +176,7 @@ export const Booking = () => {
         {/* 1. Serviço */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">1. Escolha o serviço</h2>
-          <select value={selectedServico} onChange={(e) => setSelectedServico(e.target.value)} className="w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500">
+          <select value={selectedServico} onChange={(e) => setSelectedServico(e.target.value)} className="w-full border-gray-300 rounded-md shadow-sm focus:ring-brand-aqua focus:border-brand-aqua">
             <option value="">Selecione um serviço</option>
             {servicos.map(s => (
               <option key={s.id} value={s.id}>
@@ -210,11 +210,11 @@ export const Booking = () => {
             <input type="date" value={selectedDate} onChange={(e) => {
               setSelectedDate(e.target.value);
               setSelectedTime('');
-            }} min={new Date().toISOString().split('T')[0]} className="w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500" />
+            }} min={new Date().toISOString().split('T')[0]} className="w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-brand-aqua focus:border-brand-aqua" />
             {selectedDate && (
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                 {availableTimes.map(time => (
-                  <button key={time} onClick={() => setSelectedTime(time)} className={`py-2 px-3 text-sm border rounded-md ${selectedTime === time ? 'bg-amber-500 border-amber-500 text-black font-medium' : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'}`}>
+                  <button key={time} onClick={() => setSelectedTime(time)} className={`py-2 px-3 text-sm border rounded-md ${selectedTime === time ? 'bg-brand-aqua border-brand-aqua text-black font-medium' : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'}`}>
                     {time}
                   </button>
                 ))}
@@ -228,9 +228,9 @@ export const Booking = () => {
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
             <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">4. Seus dados</h2>
             <div className="space-y-4">
-              <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder="Nome completo" className="w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500" />
-              <input type="text" value={cpf} onChange={e => setCpf(formatCPF(e.target.value))} maxLength={14} placeholder="CPF" className="w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500" />
-              <input type="text" value={telefone} onChange={e => setTelefone(formatTelefone(e.target.value))} maxLength={15} placeholder="Telefone" className="w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500" />
+              <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder="Nome completo" className="w-full border-gray-300 rounded-md shadow-sm focus:ring-brand-aqua focus:border-brand-aqua" />
+              <input type="text" value={cpf} onChange={e => setCpf(formatCPF(e.target.value))} maxLength={14} placeholder="CPF" className="w-full border-gray-300 rounded-md shadow-sm focus:ring-brand-aqua focus:border-brand-aqua" />
+              <input type="text" value={telefone} onChange={e => setTelefone(formatTelefone(e.target.value))} maxLength={15} placeholder="Telefone" className="w-full border-gray-300 rounded-md shadow-sm focus:ring-brand-aqua focus:border-brand-aqua" />
             </div>
           </div>
         )}
