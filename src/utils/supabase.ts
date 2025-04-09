@@ -104,16 +104,19 @@ export const getAgendamentosDoDia = async (data: string) => {
   const dataInicio = new Date(`${data}T00:00:00-03:00`).toISOString();
   const dataFim = new Date(`${data}T23:59:59-03:00`).toISOString();
 
-  const { data: agendamentos, error } = await supabase.from('agendamentos')
+  const { data: agendamentos, error } = await supabase
+    .from('agendamentos')
     .select(`
       *,
       servico:servico_id (
-        id,
         nome,
-        preco,
-        duracao
+        preco
+      ),
+      barbeiros:barbeiros!fk_barbeiro (
+        nome
       )
     `)
+    
     .gte('data_hora', dataInicio)
     .lte('data_hora', dataFim)
     .order('data_hora');
@@ -121,6 +124,8 @@ export const getAgendamentosDoDia = async (data: string) => {
   if (error) throw error;
   return agendamentos as Agendamento[];
 };
+
+
 
 
 export const createAgendamento = async (data: {
