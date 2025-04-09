@@ -33,19 +33,19 @@ export const Booking = () => {
     {
       id: '00000000-0000-0000-0000-000000000001',
       nome: 'Carlos Eduardo',
-      foto: 'https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=800&q=80',
+      foto: 'https://images.unsplash.com/photo-1599351431613-18ef1fdd27e1?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       especialidade: '-',
     },
     {
       id: '00000000-0000-0000-0000-000000000002',
       nome: 'Caio Augusto',
-      foto: 'https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=800&q=80',
+      foto: 'https://images.unsplash.com/photo-1599351431613-18ef1fdd27e1?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       especialidade: '-',
     },
     {
       id: '00000000-0000-0000-0000-000000000003',
       nome: 'Rhian Vinicius',
-      foto: 'https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=800&q=80', // Adapte a URL da foto
+      foto: 'hhttps://images.unsplash.com/photo-1599351431613-18ef1fdd27e1?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 
       especialidade: '-',
     },
   ];
