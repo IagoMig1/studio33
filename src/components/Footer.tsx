@@ -77,6 +77,35 @@ export const Footer = () => {
             © {new Date().getFullYear()} Studio Barber 33. Todos os direitos reservados.
           </p>
         </div>
+      
+        <p className="mt-2 flex justify-center items-center gap-1 text-sm text-gray-500">
+  Desenvolvido por
+  <a
+    href="https://lunaris-seven.vercel.app"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-1 text-purple-500 hover:underline"
+  >
+    <span className="inline-flex items-center justify-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 text-purple-500"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9" />
+        <path d="M20 3v4" />
+        <path d="M22 5h-4" />
+      </svg>
+    </span>
+    Lunaris
+  </a>
+</p>
+
       </div>
     </footer>
   );
